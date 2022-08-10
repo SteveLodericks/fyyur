@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------#
 # Imports
 #----------------------------------------------------------------------------#
-
+import os
 import json
 import dateutil.parser
 import babel
@@ -19,9 +19,15 @@ from forms import *
 app = Flask(__name__)
 moment = Moment(app)
 app.config.from_object('config')
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
+
 
 # TODO: connect to a local postgresql database
+#DB_URL = f"postgresql://{database_name}:{database_password}@localhost:5432/{database_username}"
+# DB_URL = "postgresql://" + database_name + database_password + "@localhost:5432/example"
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Motherangelika_1994@localhost:5432/fyyurapp'
+db=SQLAlchemy(app)
 
 #----------------------------------------------------------------------------#
 # Models.
