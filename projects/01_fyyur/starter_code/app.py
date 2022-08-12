@@ -77,8 +77,8 @@ class Artist(db.Model):
     genres = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
-    looking_for = db.Column(db.Boolean)
-    seeking_description = db.Column(db.String(500))
+    looking_for = db.Column(db.String)
+    seeking_venues = db.Column(db.String(500))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
@@ -466,7 +466,20 @@ def create_artist_submission():
   # called upon submitting the new artist listing form
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
-  
+  try:
+    artists= Artist(name=request.form.get('name'),city=request.form.get('city'),state=request.form.get('state'),
+    address=request.form.get('address'), phone=request.form.get('phone'), genres=request.form.get('genres'),
+    image_link=request.form.get('image_link'),website_link=request.form.get('image_link'), facebook_link=request.form.get('facebook_link'),
+    seeking_venues = request.form.get('seeking_venue'),looking_for=request.form.get('seeking_venue'))
+    db.session.add(artists)
+    db.session.commit()
+  except:
+    db.session.rollback()
+    error=True
+    print(sys.exc_info())
+  finally:
+    db.session.close()
+
   # on successful db insert, flash success
   flash('Artist ' + request.form['name'] + ' was successfully listed!')
   # TODO: on unsuccessful db insert, flash an error instead.
